@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta charset="utf-8">
+	<title>New Expense</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles -->
+	<link href="/static/assets/css/bootstrap.css" rel="stylesheet">
+	<style type="text/css">
+	  body {
+		padding-top: 60px;
+		padding-bottom: 40px;
+	  }
+	  .sidebar-nav {
+		padding: 9px 0;
+	  }
+	</style>
+	<script src="/static/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+	<script src="/static/assets/js/jquery-ui-1.8.17.custom.min.js" type="text/javascript"></script>
+	<link href="/static/assets/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet">
+	<script src="/static/assets/js/newExpenseItem.js" type="text/javascript"></script>
+	<script>
+	//date picker
+	$(function() {
+		$( "#Transaction" ).datepicker();
+		$( "#datepicker" ).datepicker();
+
+	});
+	//resize
+	/*
+	$(function() {
+		$( "#expenseLeft" ).resizable({
+			alsoResize: "#expneseRight"
+		});
+		$( "#expneseRight" ).resizable();
+	});
+	*/
+	</script>
+
+	</head>
+	<!--body -->
+    <body>
+	<!-- top navigate bar -->
+	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">E-Claim Prototype</a>
+          <div class="container">
+            <p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+	
+	<div class="container-fluid">
+		<ul class="nav nav-tabs">
+		  <li><a href="/eclaim">Home</a></li>
+		  <li class="active"><a href="#">New Expense Report</a></li>
+		  <li><a href="#contact">View&Edit</a></li>
+		  <li><a href="#contact">Approve Reports</a></li>
+		  <li><a href="#contact">Reporting</a></li>
+		</ul>
+	</div>
+
+    <div class="container-fluid">
+		<div class="row-fluid">
+			<div class="well span11">
+			<div class="span5">
+				<h3>Expense Report List 2012/09/07</h3>
+			</div>
+			<div class="span6">
+				<div class="span4 offset4">
+					<button type="submit" class="btn btn-success">Submit</button>
+					<button class="btn btn-danger">Delete</button>
+				</div>
+			</div>
+			</div>
+
+		</div>
+		<div class="row-fluid">
+			<!--left side Expense List
+			========================================================-->
+			<div class="well span5" id="expenseLeft">
+				<h3>Expenses</h3>
+				
+				<div id="Total" class="span3" style="float: right;">
+					<h4>Total: $100.00</h4>
+				</div>
+
+			</div>
+			<!--right side Expense Form
+			========================================================-->
+			<div class="span6">
+				<form class="form-horizontal well" id="expenseItemForm"> {% csrf_token %}
+					<fieldset>
+					  <legend>New Expense Item</legend>
+					  <!-- Expense Type-->
+					  <div class="control-group" id="Expense Type Control Group">
+						<label class="control-label" for="Expense Type">Expense Type</label>
+						<div class="controls">
+						  <select id="expenseType" name="expenseType">
+							<option>Mobile</option>
+				 			<option>Meal</option>
+							<option>Transpotation</option>
+							<option>Hotel</option>
+							<option>Other</option>
+						  </select>
+						</div>
+					  </div>
+					  <!--Transaction Date-->
+					  <div class="control-group">
+						<label class="control-label" for="Transaction Date">Transaction Date</label>
+						<div class="controls">
+						  <input type="text" id="transactionDate" name="transactionDate">
+						</div>
+					  </div>
+					  <!--Payment Type-->
+					  <div class="control-group" id="Payment Type">
+						<label class="control-label" for="Payment Type">Payment Type</label>
+						<div class="controls">
+						  <select id="paymentType" name="paymentType">
+							<option>Cash</option>
+							<option>Credit Card</option>
+							<option>Check</option>
+							<option>Other</option>
+						  </select>
+						</div>
+					  </div>
+					  <!--location-->
+					  <div class="control-group" id="Location">
+						<label class="control-label" for="Location">Location</label>
+						<div class="controls">
+						  <select id="Location" name="Location">
+							<option>US</option>
+							<option>China</option>
+							<option>Canada</option>
+							<option>Other</option>
+						  </select>
+						</div>
+					  </div>
+					  <!-- Comment -->
+					  <div class="control-group">
+						<label class="control-label" for="comment">Comment</label>
+						<div class="controls">
+						  <textarea class="input" id="comment" rows="3" name="comment"></textarea>
+						</div>
+					  </div>
+					  <div class="form-actions">
+					  </div>
+					</fieldset>
+				</form>
+										<button type="submit" class="btn btn-primary" id="expenseItemSubmitBtn">Save Expenst Report</button>
+						<button class="btn">Cancel</button>
+
+			</div>
+		</div>
+	</div>
+	</body>
+	
+	</HTML>
+	
+	

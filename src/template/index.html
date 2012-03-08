@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta charset="utf-8">
+	<title>index</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	 
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	 
+	<!-- Le styles -->
+	<link href="/static/assets/css/bootstrap.css" rel="stylesheet">
+	<style type="text/css">
+	  body {
+	                padding-top: 60px;
+	                padding-bottom: 40px;
+	  }
+	  .sidebar-nav {
+	                padding: 9px 0;
+	  }
+	</style>
+	<link href="/static/assets/css/bootstrap-responsive.css" rel="stylesheet">
+	 
+	<!-- Le fav and touch icons -->
+	<link rel="shortcut icon" href="images/favicon.ico">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+	</head>
+    <!--body -->
+    <body>
+    <!-- top navigate bar -->
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="#">E-Claim Prototype</a>
+          <div class="container">
+            <p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+               
+    <div class="container-fluid">
+	    <ul class="nav nav-tabs">
+	      <li class="active"><a href="#">Home</a></li>
+	      <li><a href="/expense/newExpense">New Expense Report</a></li>
+	      <li><a href="#contact">View&Edit</a></li>
+	      <li><a href="#contact">Approve Reports</a></li>
+	      <li><a href="/hr/user">Admin</a></li>
+	    </ul>
+    </div>
+ 
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span2">
+          <div class="well sidebar-nav" >
+                        <ul class="nav nav-list">
+                          <li class="nav-header">Expense Menu</li>
+                          <li class="active"><a href="#"><i class="icon-white icon-home"></i>Home</a></li>
+                          <li><a href="newExpense"><i class="icon-plane"></i>New Report</a></li>
+                          <li><a href="#"><i class="icon-pencil"></i>View&Edit Report</a></li>
+                          <li><a href="#"><i class="icon-pencil"></i>Approve Report</a></li>
+                          <li><a href="#"><i class="icon-pencil"></i>Reporting</a></li>
+                          <li class="nav-header">HR Menu</li>
+                          <li><a href="#"><i class="icon-user"></i>Profile</a></li>
+                          <li><a href="#"><i class="icon-cog"></i>Settings</a></li>
+                          <li><a href="#"><i class="icon-flag"></i>Help</a></li>
+                        </ul>
+          </div> <!-- side bar -->
+        </div>
+        <div class="well span9" id="TableZone">
+            <div class="well span10" id="approveQueue">
+                <table id="Approve-Queue-Table" class="table">
+                </table> <!--Approve Queue -->
+                <div id="Approve-Queue-Table-pager">
+                </div>
+            </div>
+           
+            <div class=" well span10" id="myExpenseReport">
+                <table id="MyExpense-Report-Table" class="table">
+                </table> <!--Expense Reports-->
+                <div id="MyExpense-Report-Table-pager">
+                </div>
+            </div>
+ 
+            <div class="well span10" id="table 3">
+                <table id="ER-RTA" class="table3">
+                </table> <!-- upcoming trip -->
+                <div id="ER-RTA-pager">
+                </div>
+            </div>
+        </div>
+     
+      </div>
+    </div>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/assets/css/custom-theme/jquery-ui-1.8.16.custom.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/assets/jqGrid/css/ui.jqgrid.css" />
+	<script type="text/javascript" src="/static/assets/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/static/assets/js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script type="text/javascript" src="/static/assets/jqGrid/js/i18n/grid.locale-en.js"></script>
+    <script type="text/javascript" src="/static/assets/jqGrid/js/jquery.jqGrid.min.js"></script>
+    <script src="/static/assets/js/home_page.js"></script>
+    <script>
+        $(function() {
+            $( "#TableZone" ).sortable({
+            opacity : 0.5,
+            forcePlaceholderSize : true,
+            placehoder : 'ui-state-highlight'
+           
+        });
+        $( "#TableZone" ).disableSelection();
+ 
+        });
+                </script>
+    </body>
+</html>
