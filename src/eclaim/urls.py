@@ -14,11 +14,17 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+    
+    #index page
+    url(r'^eclaim/$', 'eclaim.views.index'),
+
+    #hr pages
     url(r'^hr/',
         include('eclaim.humanresource.urls')
         ),
-
+    
+    #expense page
     url(r'^expense/',
-        include('eclaim.expense')
+        include('eclaim.expense.urls')
         ),
 )

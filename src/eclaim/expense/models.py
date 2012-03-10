@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 
 class ExpensePackage(models.Model):
 
-    """ Expense Package Model """
+    """ Expense Package Model 
 
     name = models.CharField(_('package name'), max_length=128)
     owner = models.ForeignKey(User)
     created = models.DateTimeField(_('created date'), auto_now_add=True)
-    modified = models.DateTimeField(_('last modified date'), auto_now=True)
+    modified = models.DateTimeField(_('last modified date'), auto_now=True)"""
 
     class Meta:
         db_table = 'expense_package'
@@ -33,7 +33,7 @@ EXPENSE_STATUS_CHOICES = (
 
 class ExpenseItem(models.Model):
 
-    """ Expense Item Model """
+    """ Expense Item Model 
 
     category = models.PositiveSmallIntegerField(_('expense category'), choices=EXPENSE_CATEGORY_CHOICES, default=0)
     amount = models.FloatField(_('amount'), null=False)
@@ -41,7 +41,7 @@ class ExpenseItem(models.Model):
     package = models.ForeignKey(ExpensePackage, unique=True)
     date = models.DateTimeField(_('date'))
     created = models.DateTimeField(_('created date'), auto_now_add=True)
-    modified = models.DateTimeField(_('last modified date'), auto_now=True)
+    modified = models.DateTimeField(_('last modified date'), auto_now=True)"""
 
     class Meta:
         db_table = 'expense_item'
