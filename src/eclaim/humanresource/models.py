@@ -7,9 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 
 class EmployeeType(models.Model):
 
-    """ Employee Type Model 
+    """ Employee Type Model """
 
-    title = models.CharField(_('title'), max_length=64)"""
+    title = models.CharField(_('title'), max_length=64)
 
     class Meta:
         db_table = 'employee_type'
@@ -17,7 +17,7 @@ class EmployeeType(models.Model):
 
 class Employee(models.Model):
 
-    """ Employee Model 
+    """ Employee Model """
 
     user = models.OneToOneField(User, unique=True)
     first_name = models.CharField(_('first name'), blank=True, max_length=128)
@@ -25,7 +25,7 @@ class Employee(models.Model):
     last_name = models.CharField(_('last name'), blank=True, max_length=128)
     email = models.EmailField(_('e-mail address'), blank=True)
     is_admin = models.BooleanField(_('administrator status'), default=False)
-    title = models.ForeignKey(EmployeeType)"""
+    title = models.ForeignKey(EmployeeType)
 
     class Meta:
         db_table = 'employee'
