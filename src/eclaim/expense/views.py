@@ -38,3 +38,14 @@ def submit_expense_view(request):
 # require login and has approval right
 def approve_expense_view(request):
     pass
+
+
+
+# expense type view
+def expense_type_view(request):
+    #check if the expense type alreay exits
+    #if true then update
+    #else insert a new one
+    pass
+    
+    

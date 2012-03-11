@@ -35,13 +35,28 @@ class ExpenseItem(models.Model):
 
     """ Expense Item Model 
 
-    category = models.PositiveSmallIntegerField(_('expense category'), choices=EXPENSE_CATEGORY_CHOICES, default=0)
-    amount = models.FloatField(_('amount'), null=False)
-    status = models.PositiveSmallIntegerField(_('expense status'), choices=EXPENSE_STATUS_CHOICES, default=0)
+    category = models.PositiveSmallIntegerField('expense category', choices=EXPENSE_CATEGORY_CHOICES, default=0)
+    amount = models.FloatField('amount', null=False)
+    status = models.PositiveSmallIntegerField('expense status', choices=EXPENSE_STATUS_CHOICES, default=0)
     package = models.ForeignKey(ExpensePackage, unique=True)
-    date = models.DateTimeField(_('date'))
-    created = models.DateTimeField(_('created date'), auto_now_add=True)
-    modified = models.DateTimeField(_('last modified date'), auto_now=True)"""
+    date = models.DateTimeField('date')
+    created = models.DateTimeField('created date', auto_now_add=True)
+    modified = models.DateTimeField('last modified date', auto_now=True)
+    location = models.ForeignKey('location', null=False)"""
 
     class Meta:
         db_table = 'expense_item'
+        
+        
+""" Define the expense type and their limit"""
+class ExpenseType(models.Model):
+
+    """ Expense Type Model """
+    #expense type
+    expenseType = models.CharField('expense type',max_length=100)
+    #expense limit
+    expenseLimit = models.IntegerField('expense limit')
+
+    class Meta:
+        db_table = 'expense_type'
+
