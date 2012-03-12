@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'eclaim.humanresource',
     'eclaim.expense',
+    'eclaim.auth',
 )
 
 # A sample logging configuration. The only tangible logging
