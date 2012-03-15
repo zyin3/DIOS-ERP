@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/ray/workspace/eclaim/src/sqlite.db', # Or path to database file if using sqlite3.
+        'NAME': 'E:\\dios-proj\\DIOS-ERP\\src\\sqlite.db', # Or path to database file if using sqlite3.
         'USER': '', # Not used with sqlite3.
         'PASSWORD': '', # Not used with sqlite3.
         'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
@@ -73,7 +73,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     
-    "DIOS/src/static",
+    "DIOS-ERP/src/static",
 )
 
 # List of finder classes that know how to find static files in
@@ -108,7 +108,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "DIOS/src/template/",
+    "DIOS-ERP/src/template/",
 )
 
 INSTALLED_APPS = (
