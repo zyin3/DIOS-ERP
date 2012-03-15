@@ -14,4 +14,5 @@ urlpatterns = patterns('',
     
     #new expense report
     url(r'^newExpense/$', 'eclaim.expense.views.create_expense_view'),
+    url(r'^expenseType/$', 'eclaim.expense.views.expense_type_view'),
 )

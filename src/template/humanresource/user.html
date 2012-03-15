@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 	<meta charset="utf-8">
-	<title>Bootstrap, from Twitter</title>
+	<title>HR Page</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
@@ -35,6 +35,11 @@
 
 	<script src="/static/assets/js/bootstrap-tabs.js" type="text/javascript"></script>
 	<script src="/static/assets/js/bootstrap-button.js" type="text/javascript"></script>
+	
+	<script type="text/javascript" src="/static/assets/jqGrid/js/i18n/grid.locale-en.js"></script>
+    <script type="text/javascript" src="/static/assets/jqGrid/js/jquery.jqGrid.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/assets/jqGrid/css/ui.jqgrid.css" />
+
 	<script src="/static/assets/js/expenseType.js" type="text/javascript"></script>
 
 	</head>
@@ -68,6 +73,7 @@
 		        <ul class="nav nav-tabs">
 		          <li class="active"><a href="#lA" data-toggle="tab">User List</a></li>
 		          <li class=""><a href="#lB" data-toggle="tab">Create/Edit User</a></li>
+		          <li class=""><a href="#lC" data-toggle="tab">Expense Type</a></li>
 		        </ul>
 		        <div class="tab-content">
 		        	<!-- user list panel-->
@@ -88,7 +94,7 @@
 				        <tbody>
 				          <tr>
 				            <td>1</td>
-				            <td>QianWWWWWW</td>
+				            <td>Qian</td>
 				            <td>Weiliang</td>
 				            <td>IT</td>
 				            <td>Python</td>
@@ -217,7 +223,12 @@
 		            	</form>
 		            </div>
 		          </div>
-		          
+		          <div class="tab-pane " id="lC">
+		          	<div class="span9 well"> {% csrf_token %}
+		          	<table id="expenseTypeTable" class="scroll"></table>
+		          	<div id="expenseTypePager"></div>
+		          	</div>
+		          </div>
 		        </div>
       		<script>
 			  $(function () {

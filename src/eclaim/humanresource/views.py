@@ -32,7 +32,7 @@ def employee_info_view(request):
 def create_employee_view(request):
     """ Creates a employee """
     indexTemplate = loader.get_template("humanresource/user.html");
-    context = Context({});
+    context = RequestContext(request,{});
     return HttpResponse(indexTemplate.render(context));
     pass
 

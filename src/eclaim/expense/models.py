@@ -53,10 +53,11 @@ class ExpenseType(models.Model):
 
     """ Expense Type Model """
     #expense type
-    expenseType = models.CharField('expense type',max_length=100)
+    type = models.CharField('expense type',max_length=100,primary_key='true')
     #expense limit
-    expenseLimit = models.IntegerField('expense limit')
-
+    limit = models.IntegerField('expense limit')
+    #expense comments
+    comments = models.TextField('expense comments')
     class Meta:
         db_table = 'expense_type'
 

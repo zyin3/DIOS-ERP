@@ -3,39 +3,82 @@
  */
 
 jQuery(document).ready(function(){ 
+	 //for csrf token.....
+	  jQuery(document).ajaxSend(function(event, xhr, settings) {
+	    function getCookie(name) {
+	        var cookieValue = null;
+	        if (document.cookie && document.cookie != '') {
+	            var cookies = document.cookie.split(';');
+	            for (var i = 0; i < cookies.length; i++) {
+	                var cookie = jQuery.trim(cookies[i]);
+	                // Does this cookie string begin with the name we want?
+	                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+	                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                    break;
+	                }
+	            }
+	        }
+	        return cookieValue;
+	    }
+	    function sameOrigin(url) {
+	        // url could be relative or scheme relative or absolute
+	        var host = document.location.host; // host + port
+	        var protocol = document.location.protocol;
+	        var sr_origin = '//' + host;
+	        var origin = protocol + sr_origin;
+	        // Allow absolute or scheme relative URLs to same origin
+	        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+	            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+	            // or any other URL that isn't scheme relative or absolute i.e relative.
+	            !(/^(\/\/|http:|https:).*/.test(url));
+	    }
+	    function safeMethod(method) {
+	        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	    }
+	
+	    if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+	        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+	    }
+	});
+  
   var lastsel2
-  jQuery("#rowed5").jqGrid({        
-    datatype: "local",
-    height: 250,
-    colNames:['ID Number','Name', 'Stock', 'Ship via','Notes'],
+  jQuery("#expenseTypeTable").jqGrid({        
+    url:"/expense/expenseType/", 
+    datatype: "json",
+    autowidth: true,
+    altRows: true,
+    shrinkToFit: true,
+    forceFit: true,
+    height: "auto",
+    altclass:'myAltRowClass',
+     jsonReader : {
+      root:"row",
+      repeatitems: false,
+      id: "expenseType"
+   },
+    colNames:['Expense Type','Expense Limit','comments'],
     colModel:[
-      {name:'id',index:'id', width:90, sorttype:"int", editable: true},
-      {name:'name',index:'name', width:150,editable: true, editoptions:{size:"20",maxlength:"30"}},
-      {name:'stock',index:'stock', width:60, editable: true, edittype:"checkbox",editoptions: {value:"Yes:No"}},
-      {name:'ship',index:'ship', width:90, editable: true, edittype:"select", editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},                       
-      {name:'note',index:'note', width:200, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}                      
-              ],
+      {name:'expenseType',index:'type', editable: true,width:200, sorttype:"text", editrules:{required:true}},
+      {name:'expenseLimit',index:'limit', editable: true,width:200,sorttype:"int",editrules:{number:true,required:true}},
+      {name:'comments',index:'comments', editable: true, width:300},
+       ],
+       
     onSelectRow: function(id){
       if(id && id!==lastsel2){
-        jQuery('#rowed5').restoreRow(lastsel2);
-        jQuery('#rowed5').editRow(id,true);
+        jQuery('#expenseTypeTable').restoreRow(lastsel2);
+        jQuery('#expenseTypeTable').editRow(id,true);
           lastsel2=id;
       }
     },
-    editurl: "server.php",
-    caption: "Input Types"
+    editurl: "/expense/expenseType/",
+    caption: "Expense Type",
+    rowNum:10, 
+    rowList:[5,10,15],
+    sortname: 'type',
+    sortorder: 'asc',
+ 
+    pager: '#expenseTypePager', 
+    viewrecords: true,	
   });
-  var mydata2 = [
-    {id:"12345",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx"},
-    {id:"23456",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime"},
-    {id:"34567",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT"},
-    {id:"45678",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX"},
-    {id:"56789",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx"},
-    {id:"67890",name:"Play Station",note:"note3",stock:"No", ship:"FedEx"},
-    {id:"76543",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX"},
-    {id:"87654",name:"Server",note:"note2",stock:"Yes",ship:"TNT"},
-    {id:"98765",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx"}
-    ];
-  for(var i=0;i<mydata2.length;i++)
-    jQuery("#rowed5").addRowData(mydata2[i].id,mydata2[i]);
+  	jQuery("#expenseTypeTable").jqGrid('navGrid',"#expenseTypePager");
 });
