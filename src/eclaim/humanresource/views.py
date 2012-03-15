@@ -1,17 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from django.template import Context, loader,RequestContext
-
-def employee_login_view(request):
-    """ Login """
-    pass
-
-
-def employee_logout_view(request):
-    """ Logout """
-    pass
-
+from django.template import Context, loader
 
 # require login and admin
 def employee_list_view(request):
