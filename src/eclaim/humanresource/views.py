@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from django.template import Context, loader
+from django.template import Context, loader,RequestContext
 
 # require login and admin
 def employee_list_view(request):
