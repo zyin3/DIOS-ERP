@@ -13,6 +13,5 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     
     #create user
-    url(r'^user/$', 'eclaim.humanresource.views.create_employee_view'),
-
+    url(r'^user/$', 'eclaim.humanresource.views.create_employee_view'),  
 )

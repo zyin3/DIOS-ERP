@@ -13,6 +13,6 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     
     #new expense report
-    url(r'^newExpense/$', 'eclaim.expense.views.create_expense_view'),
-    url(r'^expenseType/$', 'eclaim.expense.views.expense_type_view'),
+    url(r'^new_expense/$', 'eclaim.expense.views.create_expense_view'),
+    url(r'^expense_type/$', 'eclaim.expense.views.expense_type_view'),
 )
