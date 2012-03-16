@@ -46,3 +46,17 @@ class ExpenseItem(models.Model):
 
     class Meta:
         db_table = 'expense_item'
+        
+        
+""" Define the expense type and their limit"""
+class ExpenseType(models.Model):
+
+    """ Expense Type Model """
+    #expense type
+    type = models.CharField('expense type',max_length=100,primary_key='true')
+    #expense limit
+    limit = models.IntegerField('expense limit')
+    #expense comments
+    comments = models.TextField('expense comments')
+    class Meta:
+        db_table = 'expense_type'

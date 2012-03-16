@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from django.template import Context, loader
+from django.template import Context, loader,RequestContext
 
 # require login and admin
 def employee_list_view(request):
@@ -22,7 +22,7 @@ def employee_info_view(request):
 def create_employee_view(request):
     """ Creates a employee """
     indexTemplate = loader.get_template("humanresource/user.html");
-    context = Context({});
+    context = RequestContext(request,{});
     return HttpResponse(indexTemplate.render(context));
     pass
 

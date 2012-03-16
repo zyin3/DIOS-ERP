@@ -7,12 +7,10 @@ $(document).ready(function(){
     shrinkToFit: true,
     forceFit: true,
     altclass:'myAltRowClass',
-    colNames:['Report Name', 'Employee', 'Report Date', 'Requested Amount'],
+    colNames:['Expense Type', 'Expense Limit'],
     colModel:[
-    {name:'reportName',index:'reportName',width:100},
-    {name:'Employee',index:'Employee', width:50},
-    {name:'reportDate',index:'reportDate', width:100},
-    {name:'requestedAmount',index:'requestedAmount', width:100}
+    {name:'expenseType',index:'expenseType',width:100},
+    {name:'expenseLimit',index:'expenseLimit', width:100},
     ],
     pager: '#Approve-Queue-Table-pager',
     viewrecords: true,
