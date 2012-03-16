@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.http import HttpResponse, HttpResponseServerError
-from django.template import Context, loader,RequestContext
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.http import HttpResponse
+from django.template import loader, RequestContext
+from django.views.decorators.csrf import csrf_protect
 from eclaim.expense.models import ExpenseType
 from django.utils.simplejson import dumps
-from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # Create your views here.
 
 # require login
@@ -23,7 +23,7 @@ def expense_detail_view(request):
 def create_expense_view(request):
     # new expense status: draft
     template = loader.get_template("expense/newExpense.html");
-    context = RequestContext (request,{});
+    context = RequestContext (request, {});
     return HttpResponse(template.render(context));
 
 # require login
@@ -56,13 +56,14 @@ def expense_type_view(request):
             del_ID = request.POST.get('id')
             #find the object accroding to id, and delete it
             ExpenseType.objects.get(type__iexact=del_ID).delete();
-            return HttpResponse
+            return HttpResponse()
         #it is a insert/update request
         expenseTypeValue = request.POST.get('expenseType')
         expenseLimitValue = request.POST.get('expenseLimit')
         commentsValue = request.POST.get('comments')
         #insert/update
-        row = ExpenseType(type=expenseTypeValue.lower(), #insert using lower case, e.g. 'taxi' and 'Taxi' has same primary key
+        #insert using lower case, e.g. 'taxi' and 'Taxi' has same primary key
+        row = ExpenseType(typename=expenseTypeValue.lower(),
                           limit=expenseLimitValue,
                           comments=commentsValue,);
         row.save();
@@ -72,10 +73,10 @@ def expense_type_view(request):
     pageNum = int(request.GET.get('page'))
     rowNum = int(request.GET.get('rows'))
     sortName = request.GET.get('sidx') #sort name
-    if(request.GET.get('sord')=='desc'): #desc or asc
+    if(request.GET.get('sord') == 'desc'): #desc or asc
         sortName = '-' + sortName
     expenseList = ExpenseType.objects.all().order_by(sortName)
-    paginator = Paginator(expenseList,rowNum)
+    paginator = Paginator(expenseList, rowNum)
     try:
         expensePageList = paginator.page(pageNum)
     except PageNotAnInteger:
@@ -100,5 +101,5 @@ def expense_type_view(request):
         "records": paginator.count,
         "page": pageNum,
         "row":listJSON
-       }    
-    return HttpResponse(dumps(response),content_type = 'application/json; charset=utf8')
+       }
+    return HttpResponse(dumps(response), content_type='application/json; charset=utf8')

@@ -12,7 +12,10 @@ urlpatterns = patterns('',
                        url(r'^login/$',
                            login,
                            {'template_name': 'auth/login.html',
-                            'extra_context': {'next': '/eclaim/expense/new_expense/'}
+                            'extra_context':
+                                {
+                                    'next': '/eclaim/expense/new_expense/',
+                                }
                             }),
 
                        # logout view
