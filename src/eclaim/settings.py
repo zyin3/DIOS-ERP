@@ -13,6 +13,13 @@ MANAGERS = ADMINS
 
 PROJECT_ROOT = path.dirname(path.dirname(__file__))
 
+LOGIN_URL = '/eclaim/auth/login/'
+
+LOGOUT_URL = '/eclaim/auth/logout/'
+
+#TODO: Need to Update
+#LOGIN_REDIRECT_URL = '/accounts/profile/'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.

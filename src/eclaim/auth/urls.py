@@ -21,15 +21,20 @@ urlpatterns = patterns('',
                        # logout view
                        url(r'^logout/$',
                            logout,
-                           {'template_name': 'auth/logout.html'}),
+                           {'next_page': '../login',
+                            'template_name': 'auth/logout.html'
+                            }),
 
                        # password change view
                        url(r'^password_change/$',
                            password_change,
-                           {'template_name': 'auth/password_change.html'}),
+                           {'template_name': 'auth/password_change.html',
+                            'post_change_redirect': '../password_change_done'
+                            }),
 
                        # password change done view
                        url(r'^password_change_done/$',
                            password_change_done,
-                           {'template_name': 'auth/password_change_done.html'}),
+                           {'template_name': 'auth/password_change_done.html'
+                            }),
                        )
