@@ -17,6 +17,8 @@ LOGIN_URL = '/eclaim/auth/login/'
 
 LOGOUT_URL = '/eclaim/auth/logout/'
 
+AUTH_PROFILE_MODULE = 'humanresource.Employee'
+
 #TODO: Need to Update
 #LOGIN_REDIRECT_URL = '/accounts/profile/'
 
