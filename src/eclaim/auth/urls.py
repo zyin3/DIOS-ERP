@@ -17,7 +17,7 @@ urlpatterns = patterns('',
                            {'template_name': 'auth/login.html',
                             'extra_context':
                                 {
-                                    'next': '/eclaim/expense/new_expense/',
+                                    'next': '/eclaim/index.html',
                                 }
                             }),
 

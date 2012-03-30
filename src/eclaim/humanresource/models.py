@@ -23,7 +23,7 @@ class Employee(models.Model):
 
     user = models.ForeignKey(User, unique=True)
     employee_id = models.PositiveIntegerField(_('employee_id'), unique=True)
-#    department = models.ForeignKey(Department)
+#   department = models.ForeignKey(Department)
     title = models.CharField(_('job title'), blank=True, max_length=128)
     is_admin = models.BooleanField(_('administrator status'), default=False)
 

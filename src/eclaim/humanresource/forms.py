@@ -5,22 +5,28 @@ from django.contrib.auth.models import User
 
 from .models import Employee
 
+
+USER_ACTIVE_CHOICES = (('true', 'Active User'), ('false', 'Inactive User'))
 class EmployeeForm(forms.ModelForm):
 
-    username = forms.CharField(max_length=32)
+#    username = forms.CharField(max_length=32)
     password = forms.CharField(max_length=32, widget=forms.PasswordInput())
     confirm = forms.CharField(max_length=32, widget=forms.PasswordInput())
     first_name = forms.CharField(max_length=32)
-    middle_name = forms.CharField(max_length=32)
+#   middle_name = forms.CharField(max_length=32)
     last_name = forms.CharField(max_length=32)
+    #title = forms.CharField(max_length=32)
     email = forms.EmailField(max_length=32)
-
+    is_active = forms.BooleanField()
     class Meta:
         model = Employee
-        fields = ['username', 'password', 'confirm', 'first_name',
-                  'middle_name', 'last_name', 'employee_id',
+        fields = [ 'password', 'confirm', 'first_name',
+    #              'middle_name', 
+                  'last_name', 'employee_id',
 #                  'department',
-                  'email', 'title', 'is_admin']
+                  'email',
+ #                  'title', 
+                   'is_active']
 
     def clean(self):
         data = self.cleaned_data
@@ -35,12 +41,13 @@ class EmployeeForm(forms.ModelForm):
     def save(self):
         data = self.cleaned_data
         print data
-        user = User.objects.create_user(data['username'],
+        user = User.objects.create_user(data['email'],
                                         data['email'],
                                         data['password'])
         user.first_name = data['first_name']
         user.middle_name = data['middle_name']
         user.last_name = data['last_name']
+        user.is_active = data['is_active']
         user.save()
 
         employee = Employee(user=user,

@@ -63,7 +63,7 @@ def create_employee_view(request):
     else:
         form = EmployeeForm()
 
-    return render_to_response('humanresource/test_create_employee.html',
+    return render_to_response('humanresource/create_employee.html',
                                {'form': form},
                                context_instance=RequestContext(request),
                                )
