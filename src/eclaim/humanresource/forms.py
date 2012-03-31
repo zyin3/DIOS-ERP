@@ -45,7 +45,7 @@ class EmployeeForm(forms.ModelForm):
                                         data['email'],
                                         data['password'])
         user.first_name = data['first_name']
-        user.middle_name = data['middle_name']
+        # user.middle_name = data['middle_name']
         user.last_name = data['last_name']
         user.is_active = data['is_active']
         user.save()
@@ -53,7 +53,7 @@ class EmployeeForm(forms.ModelForm):
         employee = Employee(user=user,
                             employee_id=data['employee_id'],
 #                            department=data['department'],
-                            title=data['title'],
+                            #title=data['title'],
                             is_admin=data['is_admin']
                             )
         employee.save()
