@@ -10,6 +10,7 @@ from django.contrib.auth.views import (login,
                                        password_reset_confirm
                                        )
 
+
 urlpatterns = patterns('',
                        # login view
                        url(r'^login/$',
@@ -17,7 +18,7 @@ urlpatterns = patterns('',
                            {'template_name': 'auth/login.html',
                             'extra_context':
                                 {
-                                    'next': '/eclaim/index.html',
+                                    'next': '/eclaim',
                                 }
                             }),
 
