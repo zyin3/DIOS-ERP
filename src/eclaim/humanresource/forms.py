@@ -9,24 +9,21 @@ from .models import Employee
 USER_ACTIVE_CHOICES = (('true', 'Active User'), ('false', 'Inactive User'))
 class EmployeeForm(forms.ModelForm):
 
-#    username = forms.CharField(max_length=32)
+    email = forms.EmailField(max_length=32)
     password = forms.CharField(max_length=32, widget=forms.PasswordInput())
     confirm = forms.CharField(max_length=32, widget=forms.PasswordInput())
     first_name = forms.CharField(max_length=32)
-#   middle_name = forms.CharField(max_length=32)
     last_name = forms.CharField(max_length=32)
     #title = forms.CharField(max_length=32)
-    email = forms.EmailField(max_length=32)
     is_active = forms.BooleanField()
+
     class Meta:
         model = Employee
-        fields = [ 'password', 'confirm', 'first_name',
-    #              'middle_name', 
+        fields = ['password', 'confirm', 'first_name',
                   'last_name', 'employee_id',
-#                  'department',
+#                 'department',
                   'email',
- #                  'title', 
-                   'is_active']
+                  'is_active']
 
     def clean(self):
         data = self.cleaned_data
