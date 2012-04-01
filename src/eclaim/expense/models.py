@@ -43,6 +43,10 @@ class Expense(models.Model):
         (STATUS_APPROVED, 'approved'),
                                 )
 
+    STATUS_CHOICES_DICT = dict(draft=STATUS_DRAFT,
+                               submitted=STATUS_SUBMITTED,
+                               approved=STATUS_APPROVED,)
+
     name = models.CharField(_('name'), max_length=64)
     slug = models.SlugField(_('slug'), max_length=64, unique=True)
     owner = models.ForeignKey(User)
@@ -98,7 +102,8 @@ class ExpenseItem(models.Model):
         db_table = 'expense_item'
 
     def __unicode__(self):
-        return '%s(%s, %s, %.2f)' % (self.__class__.__name__,
+        return '%s(%s, %s, %s, %.2f)' % (self.__class__.__name__,
+                                     self.name,
                                      self.category.name,
                                      self.quantity,
                                      self.price
@@ -116,5 +121,6 @@ class ExpenseItem(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('eclaim.expense.views.expense_item', (), {'item_slug': self.slug})
+        return ('eclaim.expense.views.expense_item', (), {'expense_slug': self.expense.slug,
+                                                          'item_slug': self.slug})
 
