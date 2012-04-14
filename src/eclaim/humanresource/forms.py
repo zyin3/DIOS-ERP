@@ -54,7 +54,7 @@ class EmployeeForm(forms.ModelForm):
                             employee_id=data['employee_id'],
 #                            department=data['department'],
                             #title=data['title'],
-                            is_admin=data['is_admin']
+                            #is_admin=data['is_admin']
                             )
         employee.save()
 

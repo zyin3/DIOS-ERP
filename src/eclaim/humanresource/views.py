@@ -2,10 +2,12 @@
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.paginator import Paginator, InvalidPage, EmptyPage,PageNotAnInteger
 from django.core import serializers
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_protect
+from django.utils.simplejson import dumps
+
 
 from .models import Employee
 from .forms import EmployeeForm
@@ -13,32 +15,43 @@ from .forms import EmployeeForm
 # require login and admin
 def employee_list_view(request):
     """ Lists a batch of the employees """
+
+    pageNum = int(request.GET.get('page'))
+    rowNum = int(request.GET.get('rows'))
+    sortName = request.GET.get('sidx') #sort name
+    if(request.GET.get('sord') == 'desc'): #desc or asc
+        sortName = '-' + sortName
     employees = Employee.objects.all().order_by("employee_id")
-
-    # rows to display in one page
-    page_rows = int(request.GET.get("page_rows", '10'))
-    paginator = Paginator(employees, page_rows)
-
+    paginator = Paginator(employees, rowNum)
     try:
-        page = int(request.GET.get("page", '1'))
-    except ValueError:
-        page = 1
-
-    try:
-        employees = paginator.page(page)
-    except (InvalidPage, EmptyPage):
+        employees = paginator.page(pageNum)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        employees = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
         employees = paginator.page(paginator.num_pages)
 
-    response = HttpResponse()
-    serializers.serialize('json',
-                          employees.object_list,
-                          ensure_ascii=False,
-                          fields=('employee_id',
-                                  'first_name',
-                                  'last_name',
-                                  'is_admin'),
-                          stream=response)
-    return response
+
+    #dump them to json string
+    listJSON = []
+    #print(listJSON)
+    for item in employees.object_list:
+        item_dict = {
+          "employee_id":item.employee_id,
+          "first_name": item.user.first_name,
+          "last_name": item.user.last_name,
+          "is_active": item.user.is_active,
+        }
+    listJSON.append(item_dict)
+    response = {
+        "total": paginator.num_pages,
+        "records": paginator.count,
+        "page": pageNum,
+        "row":listJSON
+       }
+
+    return HttpResponse(dumps(response), content_type='application/json; charset=utf8')
 
 
 # require login and admin

@@ -38,7 +38,7 @@
         <div class="container-fluid">
           <a class="brand" href="#">E-Claim Prototype</a>
           <div class="container">
-            <p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>
+            <p class="navbar-text pull-right">Welcome, {{ user.username }} <a href="{% url django.contrib.auth.views.logout %}">Log me out</a></p>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@
     <div class="container-fluid">
 	    <ul class="nav nav-tabs">
 	      <li class="active"><a href="#">Home</a></li>
-	      <li><a href="/expense/newExpense">New Expense Report</a></li>
+	      <li><a href="expense/new_expense">New Expense Report</a></li>
 	      <li><a href="#contact">View&Edit</a></li>
 	      <li><a href="#contact">Approve Reports</a></li>
 	      <li><a href="/hr/user">Admin</a></li>
@@ -61,7 +61,7 @@
                         <ul class="nav nav-list">
                           <li class="nav-header">Expense Menu</li>
                           <li class="active"><a href="#"><i class="icon-white icon-home"></i>Home</a></li>
-                          <li><a href="newExpense"><i class="icon-plane"></i>New Report</a></li>
+                          <li><a href="expense/new_expense"><i class="icon-plane"></i>New Report</a></li>
                           <li><a href="#"><i class="icon-pencil"></i>View&Edit Report</a></li>
                           <li><a href="#"><i class="icon-pencil"></i>Approve Report</a></li>
                           <li><a href="#"><i class="icon-pencil"></i>Reporting</a></li>
