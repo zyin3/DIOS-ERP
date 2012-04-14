@@ -55,8 +55,8 @@ class ExpenseType(models.Model):
     
     Define the expense type and their limit 
     """
-
-    typename = models.CharField(_('type name'), max_length=128)
+    # type name should be unique
+    typename = models.CharField(_('type name'), max_length=128,unique=True) 
     limit = models.IntegerField(_('amount limit'))
     comments = models.TextField(_('comments'))
 
