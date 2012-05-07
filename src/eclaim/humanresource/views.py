@@ -1,82 +1,159 @@
 # -*- coding: utf-8 -*-
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseNotAllowed, HttpResponse
 from django.template import RequestContext
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.core import serializers
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.template.defaultfilters import slugify
+from django.shortcuts import get_object_or_404
+from django.db import transaction
 
-from .models import Employee
-from .forms import EmployeeForm
-
-# require login and admin
-def employee_list_view(request):
-    """ Lists a batch of the employees """
-    employees = Employee.objects.all().order_by("employee_id")
-
-    # rows to display in one page
-    page_rows = int(request.GET.get("page_rows", '10'))
-    paginator = Paginator(employees, page_rows)
-
-    try:
-        page = int(request.GET.get("page", '1'))
-    except ValueError:
-        page = 1
-
-    try:
-        employees = paginator.page(page)
-    except (InvalidPage, EmptyPage):
-        employees = paginator.page(paginator.num_pages)
-
-    response = HttpResponse()
-    serializers.serialize('json',
-                          employees.object_list,
-                          ensure_ascii=False,
-                          fields=('employee_id',
-                                  'first_name',
-                                  'last_name',
-                                  'is_admin'),
-                          stream=response)
-    return response
+from .models import Employee, Department, Membership
+from .forms import EmployeeForm, DepartmentForm
 
 
-# require login and admin
-def employee_detail_view(request, employee_id):
-    """ Gives Detail information of an employee """
-    employee = Employee.objects.get(employee_id=employee_id)
+#===============================================================================
+# Employee Views 
+#===============================================================================
+@login_required
+def employees(request):
+    """ Employee Factory Resource
+    
+    GET Get list of employee info        
+    """
 
-    response = HttpResponse()
-    serializers.serialize('json', [employee, ], ensure_ascii=False, stream=response)
-    return response
+    if 'GET' == request.method:
+        # get a new employee info
+        employees = Employee.objects.all().order_by('employee_id')
+        return HttpResponse(str(list('id: %d' % e.employee_id for e in employees)))
+
+    else:
+        raise HttpResponseNotAllowed
 
 
-# requrie login and admin
 @csrf_protect
-def create_employee_view(request):
-    """ Creates an employee """
-    if request.method == 'POST':
+@login_required
+@transaction.commit_on_success
+def employees_create(request, template='humanresource/test_create_employee.html'):
+    """ Employee Create Factory
+    
+    POST Create a employee
+    GET Get a Create form
+    """
+    if 'POST' == request.method:
+        # create a new employee info
         form = EmployeeForm(request.POST)
         if form.is_valid():
-            employee = form.save()
-            return HttpResponseRedirect('../employee/%d/' % employee.employee_id)
-    else:
+            employee = form.save(commit=False)
+            employee.user = request.user
+            employee.slug = slugify(employee.employee_id)
+            employee.save()
+
+            dept = form.cleaned_data['department']
+            is_manager = form.cleaned_data['is_manager']
+            membership = Membership(user=request.user, department=dept, is_manager=is_manager)
+            membership.save()
+
+            return redirect(employee)
+
+    elif 'GET' == request.method:
         form = EmployeeForm()
 
-    return render_to_response('humanresource/create_employee.html',
-                               {'form': form},
-                               context_instance=RequestContext(request),
-                               )
+    template_param = {'form':form}
+    return render_to_response(template, template_param,
+                              context_instance=RequestContext(request))
 
 
-# require login and admin
-def delete_employee_view(request, employee_id):
-    """ Deletes a employee """
-    pass
+@login_required
+@transaction.commit_on_success
+def employee(request, employee_slug):
+    """ Employee Resource
+        
+    GET Get employee info with specified employee_id
+    PUT Modify employee info 
+    """
+    if 'GET' == request.method:
+        employee = get_object_or_404(Employee, slug=employee_slug)
+        return HttpResponse('%s, %d' % (employee.user.username, employee.employee_id))
 
-# require login on updating oneself
-# require login and admin on updating others
-def update_employee(request):
-    pass
+    elif 'PUT' == request.method:
+        raise NotImplementedError
+
+    elif 'DELETE' == request.method:
+        employee = get_object_or_404(Employee, slug=employee_slug)
+        employee.delete()
+        return HttpResponse()
+
+    else:
+        raise HttpResponseNotAllowed
+
+
+#===============================================================================
+# Department Views 
+#===============================================================================
+@login_required
+def departments(request, template=''):
+    """ Departments
+        
+    GET Get list of department info
+    """
+    if 'GET' == request.method:
+        dept_list = Department.objects.all().order_by('name')
+        return HttpResponse(str(list(dept.name for dept in dept_list)))
+
+    else:
+        raise HttpResponseNotAllowed
+
+
+@csrf_protect
+@login_required
+@transaction.commit_on_success
+def departments_create(request, template='humanresource/test_create_employee.html'):
+    """ Departments Factory
+    
+    POST Create a new department
+    GET Get a Create form
+    """
+    if 'POST' == request.method:
+        # create a new employee info
+        form = DepartmentForm(request.POST)
+        if form.is_valid():
+            dept = form.save(commit=False)
+            dept.slug = slugify(dept.name)
+            dept.save()
+            return redirect(dept)
+
+    elif 'GET' == request.method:
+        form = DepartmentForm()
+
+    template_param = {'form':form}
+    return render_to_response(template, template_param,
+                              context_instance=RequestContext(request))
+
+
+@login_required
+@transaction.commit_on_success
+def department(request, department_slug):
+    """ Department Resource
+        
+    GET Get a department info with department_id    
+    PUT Modify a department info
+    """
+    if 'GET' == request.method:
+        dept = get_object_or_404(Department, slug=department_slug)
+        return HttpResponse(dept.name)
+
+    elif 'PUT' == request.method:
+        raise NotImplementedError
+
+    elif 'DELETE' == request.method:
+        dept = get_object_or_404(Department, slug=department_slug)
+        dept.delete()
+        return HttpResponse()
+
+    else:
+        raise HttpResponseNotAllowed
 
 
