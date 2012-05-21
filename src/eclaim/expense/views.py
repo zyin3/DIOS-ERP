@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.template import loader, RequestContext
+from django.http import Http404, HttpResponse
+from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.core.serializers import serialize
 from .utils.template_param import common_parameter
-from .utils.serializer import serialize_to_stream
-from .models import ExpenseItem, ExpenseCategory, Expense
+from .models import ExpenseCategory, Expense
 from .forms import ExpenseItemForm, ExpenseCategoryForm, ExpenseForm
 
 from django.utils.simplejson import dumps

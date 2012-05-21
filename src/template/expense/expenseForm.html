@@ -1,0 +1,69 @@
+<script>
+//date picker
+$(function() {
+	$( "#id_date" ).datepicker();
+});
+</script>
+
+
+<form class="form-horizontal well" id="expenseItemForm" action="item/" method="post"> {% csrf_token %}
+	
+	<fieldset>
+	<input type="hidden" id="expenseName" name="expenseName" value={{ expense.name }} />
+	<input type="hidden" id="itemId" name="itemId" value={{item.id}} />
+	  <legend>New Expense Item</legend>
+	  <!-- Expense Type-->
+	  <div class="control-group" id="Expense Type Control Group">
+		<label class="control-label" for="Expense Type">Expense Type</label>
+		<div class="controls">{{form.category}}</div>
+	  </div>
+	  <!--Price-->
+	  <div class="control-group" id="Location">
+		<label class="control-label" for="Location">Price</label>
+		<div class="controls">
+			{{form.price}}
+		</div>
+	  </div>
+	  <!--Quantity-->
+	  <div class="control-group" id="Location">
+		<label class="control-label" for="Location">Quantity</label>
+		<div class="controls">
+			{{form.quantity}}
+		</div>
+	  </div>
+
+	  <!--Transaction Date-->
+	  <div class="control-group">
+		<label class="control-label" for="Transaction Date">Transaction Date</label>
+		<div class="controls">
+			{{form.date}}
+		</div>
+	  </div>
+	  <!--Payment Type-->
+	  <div class="control-group" id="Payment Type">
+		<label class="control-label" for="Payment Type">Payment Type</label>
+		<div class="controls">
+			{{form.paymentType}}
+		</div>
+	  </div>
+	  <!--location-->
+	  <div class="control-group" id="Location">
+		<label class="control-label" for="Location">Location</label>
+		<div class="controls">
+			{{form.location}}
+		</div>
+	  </div>
+
+	  <!-- Comment -->
+	  <div class="control-group">
+		<label class="control-label" for="comment">Comment</label>
+		<div class="controls">
+			{{form.description}}
+		</div>
+	  </div>
+	</fieldset>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary" id="expenseItemSubmitBtn">Save Expenst Report</button>
+			<button class="btn">Cancel</button>
+	  	</div>
+</form>

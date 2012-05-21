@@ -5,7 +5,6 @@
 	<title>New Expense</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 	<!--[if lt IE 9]>
 	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -21,17 +20,46 @@
 	  .sidebar-nav {
 		padding: 9px 0;
 	  }
+	  .datatable_tr {
+		}
+	  .datatable_tr_odd{
+	  	background-color: #DDDDDD;
+		}
+		
+	    .datatable_tr_hover{
+	  	background-color: #DDDDDD;
+		}
+
+
+	  .datatable_td {
+	    border-top: 1px solid #DDDDDD;
+	    line-height: 30px;
+	    padding: 8px;
+	    text-align: left;
+	    border-left: 1px solid #ddd;
+
+	}
+	.datatable_th {
+	  font-weight: bold;
+  	  vertical-align: bottom;
+ 	}
+	.table tbody tr:hover td,
+	.table tbody tr:hover th {
+	  background-color: #DDDDDD;
+	}
+
+
 	</style>
 	<script src="/static/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
 	<script src="/static/assets/js/jquery-ui-1.8.17.custom.min.js" type="text/javascript"></script>
 	<link href="/static/assets/css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet">
+	<script src="https://www.google.com/jsapi" type="text/javascript"></script>
+	<script>google.load('visualization', '1', {packages:['table']});</script>
 	<script src="/static/assets/js/newExpenseItem.js" type="text/javascript"></script>
 	<script>
 	//date picker
 	$(function() {
-		$( "#Transaction" ).datepicker();
-		$( "#datepicker" ).datepicker();
-
+		$( "#id_date" ).datepicker();
 	});
 	//resize
 	/*
@@ -53,7 +81,7 @@
         <div class="container-fluid">
           <a class="brand" href="#">E-Claim Prototype</a>
           <div class="container">
-            <p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>
+            <p class="navbar-text pull-right">Welcome, {{ user.username }} <a href="{% url django.contrib.auth.views.logout %}">Log me out</a></p>
           </div>
         </div>
       </div>
@@ -73,7 +101,7 @@
 		<div class="row-fluid">
 			<div class="well span11">
 			<div class="span5">
-				<h3>Expense Report List 2012/09/07</h3>
+				<h3>Expense Report: {{ expense.name }}</h3>
 			</div>
 			<div class="span6">
 				<div class="span4 offset4">
@@ -89,75 +117,78 @@
 			========================================================-->
 			<div class="well span5" id="expenseLeft">
 				<h3>Expenses</h3>
-				
-				<div id="Total" class="span3" style="float: right;">
-					<h4>Total: $100.00</h4>
+				<div class="row">
+					<div id="expenseListTable" class="span11"></div>
+				</div>
+				<div id="Total" class="span3" style="float: right;padding-top:10px;">
+					<h4>Total: {{expense.total}}</h4>
 				</div>
 
 			</div>
 			<!--right side Expense Form
 			========================================================-->
-			<div class="span6">
-				<form class="form-horizontal well" id="expenseItemForm"> {% csrf_token %}
+			<div class="span6" id="expenseRight">
+				<form class="form-horizontal well" id="expenseItemForm" action="item/" method="post"> {% csrf_token %}
+					
 					<fieldset>
+					<input type="hidden" id="expenseName" name="expenseName" value={{ expense.name }} />
+					<input type="hidden" id="itemId" name="itemId" value={{item.pk}}/>
 					  <legend>New Expense Item</legend>
 					  <!-- Expense Type-->
 					  <div class="control-group" id="Expense Type Control Group">
 						<label class="control-label" for="Expense Type">Expense Type</label>
+						<div class="controls">{{form.category}}</div>
+					  </div>
+					  <!--Price-->
+					  <div class="control-group" id="Location">
+						<label class="control-label" for="Location">Price</label>
 						<div class="controls">
-						  <select id="expenseType" name="expenseType">
-							<option>Mobile</option>
-				 			<option>Meal</option>
-							<option>Transpotation</option>
-							<option>Hotel</option>
-							<option>Other</option>
-						  </select>
+							{{form.price}}
 						</div>
 					  </div>
+					  <!--Quantity-->
+					  <div class="control-group" id="Location">
+						<label class="control-label" for="Location">Quantity</label>
+						<div class="controls">
+							{{form.quantity}}
+						</div>
+					  </div>
+
 					  <!--Transaction Date-->
 					  <div class="control-group">
 						<label class="control-label" for="Transaction Date">Transaction Date</label>
 						<div class="controls">
-						  <input type="text" id="transactionDate" name="transactionDate">
+						  <input class="datePicker" type="text" name="date" id="id_date">
 						</div>
 					  </div>
 					  <!--Payment Type-->
 					  <div class="control-group" id="Payment Type">
 						<label class="control-label" for="Payment Type">Payment Type</label>
 						<div class="controls">
-						  <select id="paymentType" name="paymentType">
-							<option>Cash</option>
-							<option>Credit Card</option>
-							<option>Check</option>
-							<option>Other</option>
-						  </select>
+							{{form.paymentType}}
 						</div>
 					  </div>
 					  <!--location-->
 					  <div class="control-group" id="Location">
 						<label class="control-label" for="Location">Location</label>
 						<div class="controls">
-						  <select id="Location" name="Location">
-							<option>US</option>
-							<option>China</option>
-							<option>Canada</option>
-							<option>Other</option>
-						  </select>
+							{{form.location}}
 						</div>
 					  </div>
+
 					  <!-- Comment -->
 					  <div class="control-group">
 						<label class="control-label" for="comment">Comment</label>
 						<div class="controls">
-						  <textarea class="input" id="comment" rows="3" name="comment"></textarea>
+							{{form.description}}
 						</div>
 					  </div>
-					  <div class="form-actions">
-					  </div>
 					</fieldset>
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary" id="expenseItemSubmitBtn">Save Expenst Report</button>
+							<button class="btn">Cancel</button>
+					  	</div>
 				</form>
-										<button type="submit" class="btn btn-primary" id="expenseItemSubmitBtn">Save Expenst Report</button>
-						<button class="btn">Cancel</button>
 
 			</div>
 		</div>
