@@ -25,7 +25,7 @@ class Employee(models.Model):
     employee_id = models.PositiveIntegerField(_('employee_id'), unique=True)
 #   department = models.ForeignKey(Department)
     title = models.CharField(_('job title'), blank=True, max_length=128)
-    is_admin = models.BooleanField(_('administrator status'), default=False)
+#    is_admin = models.BooleanField(_('administrator status'), default=False)
 
 
     class Meta:

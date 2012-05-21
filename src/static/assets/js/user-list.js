@@ -41,9 +41,8 @@ jQuery(document).ready(function(){
 	    }
 	});
   
-  var lastsel2
-  jQuery("#expenseTypeTable").jqGrid({        
-    url:"/eclaim/expense/category/all/", 
+  jQuery("#userListTable").jqGrid({        
+    url:"/eclaim/hr/employee_list/", 
     datatype: "json",
     autowidth: true,
     altRows: true,
@@ -56,30 +55,21 @@ jQuery(document).ready(function(){
       repeatitems: false,
       id: "id"
    },
-    colNames:['id','Expense Type','Expense Limit','Descriptions'],
+    colNames:['Employee Id','First Name','Last Name','Is Active'],
     colModel:[
-      {name:'id',index:'id', editable: false,width:50, sorttype:"int"},
-      {name:'name',index:'name', editable: true,width:200, sorttype:"text", editrules:{required:true}},
-      {name:'limit',index:'limit', editable: true,width:200,sorttype:"int",editrules:{number:true,required:true}},
-      {name:'description',index:'description', editable: true, width:300},
+      {name:'employee_id',index:'employee_id', width:200, sorttype:"int"},
+      {name:'first_name',index:'first_name', width:200, sorttype:"text"},
+      {name:'last_name',index:'last_name', width:200,sorttype:"text"},
+      {name:'is_active',index:'is_active', width:300,sorttype:"int"},
        ],
-       
-    onSelectRow: function(id){
-      if(id && id!==lastsel2){
-        jQuery('#expenseTypeTable').restoreRow(lastsel2);
-        jQuery('#expenseTypeTable').editRow(id,true);
-          lastsel2=id;
-      }
-    },
-    editurl: "/eclaim/expense/category/create/",
-    caption: "Expense Type",
+    caption: "User List",
     rowNum:10, 
     rowList:[5,10,15],
-    sortname: 'id',
+    sortname: 'employee_id',
     sortorder: 'asc',
  
-    pager: '#expenseTypePager', 
+    pager: '#userListTablePager', 
     viewrecords: true,	
   });
-  	jQuery("#expenseTypeTable").jqGrid('navGrid',"#expenseTypePager");
+  	jQuery("#userListTable").jqGrid('navGrid',"#userListTablePager");
 });
