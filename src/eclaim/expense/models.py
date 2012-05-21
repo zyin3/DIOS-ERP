@@ -53,7 +53,7 @@ class Expense(models.Model):
     status = models.PositiveSmallIntegerField(_('status'), choices=STATUS_CHOICES, default=STATUS_DRAFT)
     created = models.DateTimeField(_('created date'), auto_now_add=True)
     modified = models.DateTimeField(_('modified date'), auto_now=True)
-    description = models.TextField(_('description'))
+    description = models.TextField(_('description'), blank=True)
 
     class Meta:
         db_table = 'expense'
@@ -70,8 +70,9 @@ class Expense(models.Model):
         """ Total price of expense """
         total_price = decimal.Decimal('0.00')
         expense_items = ExpenseItem.objects.filter(expense=self)
-        for item in expense_items:
-            total_price += item.total
+        if expense_items:
+            for item in expense_items:
+                total_price += item.total
         return total_price
 
     @property
@@ -88,22 +89,38 @@ class Expense(models.Model):
 class ExpenseItem(models.Model):
 
     """ Expense Item Model """
+    PAYMENT_CHOICES = (
+        ('Cash', 'Cash'),
+        ('Credit Card', 'Credit Card'),
+        ('Check', 'Check'),
+        ('Others', 'Others'),
+        )
+    
+    Location = (
+        ('US', 'US'),
+        ('China', 'China'),
+        ('Canada', 'Canada'),
+        ('Others', 'Others'),
+        )
 
-    name = models.CharField(_('name'), max_length=64)
-    slug = models.SlugField(_('slug'), max_length=64, unique=True)
+    #name = models.CharField(_('name'), max_length=64)
+    #slug = models.SlugField(_('slug'), max_length=64, unique=True)
     quantity = models.IntegerField(_('quantity'), default=1)
     price = models.DecimalField(_('price'), max_digits=9, decimal_places=2)
-    expense = models.ForeignKey(Expense)
+    expense = models.ForeignKey(Expense,related_name='expenseitems')
     category = models.ForeignKey(ExpenseCategory)
     date = models.DateTimeField(_('date'))
-    description = models.TextField(_('description'))
+    description = models.TextField(_('description'), blank=True)
 
+    paymentType = models.CharField(_('paymentType'), max_length=64, choices=PAYMENT_CHOICES, default='Cash')
+    location = models.CharField(_('location'), max_length=64, choices=Location, default='China')
+    
     class Meta:
         db_table = 'expense_item'
 
     def __unicode__(self):
-        return '%s(%s, %s, %s, %.2f)' % (self.__class__.__name__,
-                                     self.name,
+        return '%s(%s, %s, %.2f)' % (self.__class__.__name__,
+                                     #self.name,
                                      self.category.name,
                                      self.quantity,
                                      self.price
@@ -121,5 +138,5 @@ class ExpenseItem(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('eclaim.expense.views.expense_item', (), {'expense_slug': self.expense.slug,
+        return ('eclaim.expense.views.expense_item_all', (), {'expense_slug': self.expense.slug,
                                                           'item_slug': self.slug})

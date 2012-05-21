@@ -8,13 +8,13 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.core.serializers import serialize
 from .utils.template_param import common_parameter
-from .models import ExpenseCategory, Expense
+from .models import ExpenseCategory, Expense, ExpenseItem
 from .forms import ExpenseItemForm, ExpenseCategoryForm, ExpenseForm
 
 from django.utils.simplejson import dumps
 from gviz_api import *
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 #===============================================================================
 # expense/xxx/
 # expense/all/
